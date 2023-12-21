@@ -155,6 +155,9 @@ class MemoryOptimizedGroupedGLU(torch.autograd.Function):
                 x_q, x_scales, num_bits=ctx.num_input_bits,
                 out_dtype=dtype, out_shape=ctx.x_shape)
 
+        dsdd_out = dsdd_out * v1_out
+        dv1_out = dv1_out * sdd_out
+
         # Compute dw1.
         dw1 = gg.backend.gmm(dsdd_out, x, batch_sizes, trans_a=True)
 
